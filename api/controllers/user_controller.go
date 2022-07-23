@@ -4,12 +4,11 @@ import (
 	"net/http"
 	"strconv"
 
-	"github.com/dipeshdulal/clean-gin/constants"
+	"github.com/dipeshdulal/clean-gin/api/apitool"
 	"github.com/dipeshdulal/clean-gin/domains"
 	"github.com/dipeshdulal/clean-gin/lib"
 	"github.com/dipeshdulal/clean-gin/models"
 	"github.com/gin-gonic/gin"
-	"gorm.io/gorm"
 )
 
 // UserController data type
@@ -66,7 +65,8 @@ func (u UserController) GetUser(c *gin.Context) {
 // SaveUser saves the user
 func (u UserController) SaveUser(c *gin.Context) {
 	user := models.User{}
-	trxHandle := c.MustGet(constants.DBTransaction).(*gorm.DB)
+	// trxHandle := c.MustGet(constants.DBTransaction).(*gorm.DB)
+	trxHandle := apitool.GetTx(c)
 
 	if err := c.ShouldBindJSON(&user); err != nil {
 		u.logger.Error(err)
